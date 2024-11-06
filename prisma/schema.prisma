@@ -2,8 +2,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// para testar no Neon banco de dados
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+// para testar localmente
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
