@@ -11,11 +11,13 @@ import { MoneyInput } from "./money-input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { TRANSACTION_CATEGORY_OPTIONS, TRANSACTION_PAYMENT_METHOD_OPTIONS, TRANSACTION_TYPE_OPTIONS } from "../_constants/transactions";
 import { DatePicker } from "./ui/date-picker";
-import { addTransaction } from "../_actions/add-transaction";
+import { upsertTransaction } from "../_actions/add-transaction";
 
 
 interface UpsertTransactionDialogProps {
     isOpen : boolean;
+    defaultValues?: FormSchema;
+    transactionId?: string;
     setIsOpen: (isOpen: boolean) => void;
 }
 
@@ -45,10 +47,15 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>
 
 
-const UpsertTransactionDialog = ({isOpen, setIsOpen} : UpsertTransactionDialogProps) => {
+const UpsertTransactionDialog = ({
+    isOpen, 
+    defaultValues,
+    transactionId,
+    setIsOpen,
+}: UpsertTransactionDialogProps) => {
     const form = useForm<FormSchema>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
+        defaultValues: defaultValues ?? {
             amount: 50,
             category: TransactionCategory.OTHER,
             date: new Date(),
@@ -60,13 +67,15 @@ const UpsertTransactionDialog = ({isOpen, setIsOpen} : UpsertTransactionDialogPr
 
     const onSubmit = async (data: FormSchema) => {
         try {
-            await addTransaction(data);
+            await upsertTransaction({...data,id: transactionId});
             setIsOpen(false)
             form.reset();
         } catch (error) {
             console.error(error);
         }
     }
+
+    const isUpdate = Boolean(transactionId);
 
     return ( 
         <Dialog
@@ -82,7 +91,7 @@ const UpsertTransactionDialog = ({isOpen, setIsOpen} : UpsertTransactionDialogPr
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Adicionar transação</DialogTitle>
+                    <DialogTitle>{isUpdate ? "Atualizar" : "Criar"} transação</DialogTitle>
                     <DialogDescription>
                         Insira as informações abaixo
                     </DialogDescription>
@@ -212,7 +221,7 @@ const UpsertTransactionDialog = ({isOpen, setIsOpen} : UpsertTransactionDialogPr
                             <DialogClose asChild>
                                 <Button type="button" variant="outline">Cancelar</Button>
                             </DialogClose>
-                            <Button type="submit">Adicionar</Button>
+                            <Button type="submit">{isUpdate ? "Atualizar" : "Adicionar"}</Button>
                         </DialogFooter>
                     </form>
                 </Form>
