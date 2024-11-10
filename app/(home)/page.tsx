@@ -2,7 +2,8 @@ import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { dark } from "@clerk/themes";
 import { redirect } from "next/navigation";
-import Navbar from "./_components/navbar";
+import Navbar from "../_components/navbar";
+import SummaryCards from "./_components/summary-cards";
 
 const Home =  async () => {
   const {userId} = await auth()
@@ -10,7 +11,10 @@ const Home =  async () => {
     redirect("/login");
   }
   return(
+    <>
     <Navbar />
+    <SummaryCards />
+    </>
   )
 }
 
