@@ -4,3 +4,13 @@ Tudo alinhado com a aula 3 e funcionando
 - Login
 - Criar Transação
 - Atualizar Transação
+
+Letras para o certificado
+Aula 1 - 
+Aula 2 - 
+Aula 3 - F
+Aula 4 - A
+Aula 5 - C
+Aula 6 - F
+Aula 7 - 
+Aula 8 - 
