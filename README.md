@@ -3,11 +3,10 @@ A Finance AI é uma plataforma de gestão financeira que utiliza IA para monitor
 Parei na aula 5 tempo 00:37:00
 
 Letras para o certificado
-Aula 1 - 
-Aula 2 - 
+Aula 1 - 3
+Aula 2 - G
 Aula 3 - F
 Aula 4 - A
 Aula 5 - C
 Aula 6 - F
-Aula 7 - 
-Aula 8 - 
+Aula 7 - 1
