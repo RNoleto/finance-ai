@@ -1,6 +1,5 @@
 import AddTransactionButton from "@/app/_components/add-transaction-button";
 import { Card, CardContent, CardHeader } from "@/app/_components/ui/card";
-import { PiggyBankIcon } from "lucide-react";
 import { ReactNode } from "react";
 
 interface SummaryCardProps {
@@ -12,7 +11,7 @@ interface SummaryCardProps {
 
 const SummaryCard = ({icon, title, amount, size = 'small'}: SummaryCardProps) => {
     return ( 
-        <Card>
+        <Card className={`${size == 'large' ? 'bg-white bg-opacity-5' : ''}`}>
                 <CardHeader className="flex-row items-center gap-4">
                     {icon}
                     <p className={`$size === "small"? "text-muted-foreground" : "text-white opacity-70"`}>{title}</p>

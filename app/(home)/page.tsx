@@ -4,6 +4,8 @@ import Navbar from "../_components/navbar";
 import SummaryCards from "./_components/summary-cards";
 import TimeSelect from "./_components/time-select";
 import { isMatch } from "date-fns";
+import TransactionPieChart from "./_components/transactions-pie-chart";
+import { getDashboad } from "../_data/get-dashboard";
 
 interface HomeProps {
   searchParams: {
@@ -11,26 +13,36 @@ interface HomeProps {
   };
 }
 
-const Home =  async ({searchParams: { month }}) => {
+const Home = async ({ searchParams: { month } }) => {
   const { userId } = await auth();
-  if(!userId){
+  if (!userId) {
     redirect("/login");
   }
-  
+
   const monthIsInvalid = !month || !isMatch(month, 'MM');
-  if(monthIsInvalid){
+  if (monthIsInvalid) {
     redirect('?month=01');
   }
-  return(
+
+  const dashboard = await getDashboad(month)
+
+  return (
     <>
-    <Navbar />
-    <div className="p-6 space-y-6">
-    <div className="flex justify-between">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <TimeSelect />
-    </div>
-    <SummaryCards month={month}/>
-    </div>
+      <Navbar />
+      <div className="p-6 space-y-6">
+        <div className="flex justify-between">
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <TimeSelect />
+        </div>
+        <div className="grid grid-cols-[2fr,1fr]">
+          <div>
+          <SummaryCards month={month} {...dashboard} />
+          <div className="grid grid-cols-3 grid-rows-1 gap-6">
+            <TransactionPieChart {...dashboard}/>
+          </div>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
