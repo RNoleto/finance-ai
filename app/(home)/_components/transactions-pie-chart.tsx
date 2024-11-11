@@ -14,7 +14,8 @@ import {
 } from "@/app/_components/ui/chart"
 import { TransactionType } from "@prisma/client"
 import { TransactionPercentagePerType } from "@/app/_data/get-dashboard/types"
-import { TrendingUpIcon } from "lucide-react"
+import { PiggyBankIcon, TrendingDownIcon, TrendingUpIcon } from "lucide-react"
+import PercentageItem from "./percentage-item"
 
 const chartConfig = {
     [TransactionType.INVESTMENT]: {
@@ -76,16 +77,22 @@ const TransactionPieChart = ({ depositsTotal, investmentsTotal, expensesTotal, t
                         />
                     </PieChart>
                 </ChartContainer>
-                <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                        {/* ICONE */}
-                        <div className="flex items-center gap-2">
-                            <TrendingUpIcon size={16} className="text-primary"/>
-                            <p className="text-sm text-muted-foreground">Receita</p>
-                        </div>
-                        {/* Porcentagem */}
-                        <p className="font-bold text-sm">{typesPercentage[TransactionType.DEPOSIT]}%</p>
-                    </div>
+                <div className="space-y-3">
+                    <PercentageItem
+                        icon={<TrendingUpIcon size={16} className="text-primary" />}
+                        title="Receita"
+                        value={typesPercentage[TransactionType.DEPOSIT]}
+                    />
+                    <PercentageItem
+                        icon={<TrendingDownIcon size={16} className="text-red-500" />}
+                        title="Despesas"
+                        value={typesPercentage[TransactionType.EXPENSE]}
+                    />
+                    <PercentageItem
+                        icon={<PiggyBankIcon size={16} />}
+                        title="Investido"
+                        value={typesPercentage[TransactionType.INVESTMENT]}
+                    />
                 </div>
             </CardContent>
         </Card>
