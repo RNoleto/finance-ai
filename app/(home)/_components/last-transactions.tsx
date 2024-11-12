@@ -1,6 +1,8 @@
 import { Button } from "@/app/_components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
+import { TRANSACTION_PAYMENT_METHOD_ICONS } from "@/app/_constants/transactions";
+import { formatCurrency } from "@/app/_utils/currency";
 import { Transaction, TransactionType } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +12,7 @@ interface LastTransactionsProps {
 }
 
 const LastTransactions = ({ lastTransactions}: LastTransactionsProps) => {
-    const getPriceColor = (transaction: Transaction) => {
+    const getAmountColor = (transaction: Transaction) => {
         if(transaction.type == TransactionType.EXPENSE) {
             return "text-red-500";
         }
@@ -18,7 +20,16 @@ const LastTransactions = ({ lastTransactions}: LastTransactionsProps) => {
             return "text-primary";
         }
         return "text-white";
-    }
+    };
+
+    const getAmountPrefix = (transaction: Transaction) => {
+        if(transaction.type == TransactionType.DEPOSIT) {
+            return "+";
+        }
+        else return "-";
+        
+    };
+
     return ( 
         <ScrollArea className="rounded-md border">
             <CardHeader className="flex-row items-center justify-between">
@@ -31,10 +42,12 @@ const LastTransactions = ({ lastTransactions}: LastTransactionsProps) => {
             </CardHeader>
             <CardContent className="space-y-6">
                 {lastTransactions.map(transaction => (
-                    <div className="flex justify-between items-center">
+                    <div className="flex items-center justify-between">
                         {/* Esquerda Icone */}
-                        <div className="flex items-center gap-2 bg-white bg-opacity-[3%]">
-                            <Image src="/pix.svg" height={20} width={20} alt="PIX" />
+                        <div className="flex items-center gap-3">
+                            <div className="bg-white bg-opacity-[3%] p-3 rounded-lg">
+                            <Image src={TRANSACTION_PAYMENT_METHOD_ICONS[transaction.paymentMethod]} height={20} width={20} alt="PIX" />
+                            </div>
                             <div>
                                 <p className="text-sm font-bold">{transaction.name}</p>
                                 <p className="text-sm text-muted-foreground">
@@ -45,10 +58,10 @@ const LastTransactions = ({ lastTransactions}: LastTransactionsProps) => {
                                     })}
                                 </p>
                             </div>
-                            <p className={`text-sm font-bold ${getPriceColor(transaction)}`}>
-                                {transaction.price}
-                            </p>
                         </div>
+                            <p className={`text-sm font-bold ${getAmountColor(transaction)}`}>
+                                {getAmountPrefix(transaction)}{formatCurrency(Number(transaction.amount))}
+                            </p>
                     </div>
                 ))}
             </CardContent>
