@@ -29,7 +29,7 @@ const TransactionsPage = async () => {
             </div>
             <ScrollArea>
                 <DataTable columns={transactionColumns} data={transactions}/>
-            </ScrollArea>
+            </ScrollArea>            
         </div>
         </>
     )
