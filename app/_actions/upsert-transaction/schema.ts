@@ -1,5 +1,4 @@
 import { TransactionCategory, TransactionPaymentMethod, TransactionType } from "@prisma/client";
-import { describe } from "node:test";
 import { z } from "zod";
 
 export const upsertTransactionSchema = z.object({
