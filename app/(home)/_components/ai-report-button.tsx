@@ -8,12 +8,14 @@ import { BotIcon, Loader2Icon } from "lucide-react";
 import { useState } from "react";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import Markdown from 'react-markdown';
+import Link from "next/link";
 
 interface AiReportButtonProps{
+    hasPremiumPlan: boolean;
     month: string
 }
 
-const AiReportButton = ({month}: AiReportButtonProps) => {
+const AiReportButton = ({month, hasPremiumPlan}: AiReportButtonProps) => {
     const [report, setReport] = useState<string | null>(null);
     const [reportIsLoading, setReportIsLoading] = useState(false);
     const handleGenerateReportClick = async () => {
@@ -40,6 +42,8 @@ const AiReportButton = ({month}: AiReportButtonProps) => {
                 </Button>
             </DialogTrigger>
             <DialogContent className="max-w-[600px]">
+                {hasPremiumPlan ? 
+                (<>
                 <DialogHeader>
                     <DialogTitle>Relatório IA</DialogTitle>
                     <DialogDescription>
@@ -58,6 +62,25 @@ const AiReportButton = ({month}: AiReportButtonProps) => {
                         Gerar relatório
                     </Button>
                 </DialogFooter>
+                </>) : (<>
+                    <DialogHeader>
+                    <DialogTitle>Relatório IA</DialogTitle>
+                    <DialogDescription>
+                        Você precisa de um plano premium para gerar relatórios com IA.
+                    </DialogDescription>
+                </DialogHeader>
+                
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button variant="ghost">Cancelar</Button>
+                    </DialogClose>
+                    <Button asChild>
+                        <Link href="/subscription">
+                        Assinar plano PREMIUM
+                        </Link>
+                    </Button>
+                </DialogFooter>
+                </>)}
             </DialogContent>
         </Dialog>
     );
