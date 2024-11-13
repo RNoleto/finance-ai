@@ -97,6 +97,6 @@ export const getDashboad = async (month: string) => {
         expensesTotal,
         typesPercentage,
         totalExpensePerCategory,
-        lastTransactions,
+        lastTransactions: JSON.parse(JSON.stringify(lastTransactions)),
     };
 };
